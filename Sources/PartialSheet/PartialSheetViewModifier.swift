@@ -44,7 +44,7 @@ struct PartialSheet: ViewModifier {
             bottomSafeArea -
             sheetContentRect.height -
             handlerSectionHeight
-          
+
         guard calculatedTop < style.minTopDistance else {
             return calculatedTop
         }
@@ -105,7 +105,7 @@ struct PartialSheet: ViewModifier {
                                     value: [PreferenceData(bounds: proxy.frame(in: .global))]
                                 )
                             }
-                    )
+                        )
                         .onAppear{
                             let notifier = NotificationCenter.default
                             let willShow = UIResponder.keyboardWillShowNotification
@@ -118,15 +118,15 @@ struct PartialSheet: ViewModifier {
                                                  object: nil,
                                                  queue: .main,
                                                  using: self.keyboardHide)
-                    }
-                    .onDisappear {
-                        let notifier = NotificationCenter.default
-                        notifier.removeObserver(self)
-                    }
-                    .onPreferenceChange(PresenterPreferenceKey.self, perform: { (prefData) in
-                        self.presenterContentRect = prefData.first?.bounds ?? .zero
-                    })
-            }
+                        }
+                        .onDisappear {
+                            let notifier = NotificationCenter.default
+                            notifier.removeObserver(self)
+                        }
+                        .onPreferenceChange(PresenterPreferenceKey.self, perform: { (prefData) in
+                            self.presenterContentRect = prefData.first?.bounds ?? .zero
+                        })
+                }
                 // if the device type is not an iPhone,
                 // display the sheet content as a normal sheet
                 .iPadOrMac {
@@ -136,7 +136,7 @@ struct PartialSheet: ViewModifier {
                         }, content: {
                             self.iPadAndMacSheet()
                         })
-            }
+                }
             // if the device type is an iPhone,
             // display the sheet content as a draggableSheet
             if deviceType == .iphone {
@@ -220,7 +220,7 @@ extension PartialSheet {
                                 GeometryReader { proxy in
                                     Color.clear.preference(key: SheetPreferenceKey.self, value: [PreferenceData(bounds: proxy.frame(in: .global))])
                                 }
-                        )
+                            )
                     }
                     Spacer()
                 }
@@ -379,7 +379,7 @@ struct PartialSheetAddView<Base: View, InnerContent: View>: View {
 
     @State var model = Model()
     @State var model2 = Model()
- 
+
     var body: some View {
         if model.update(value: isPresented) {
             DispatchQueue.main.async(execute: updateContent)
@@ -395,6 +395,7 @@ struct PartialSheetAddView<Base: View, InnerContent: View>: View {
     }
 
     func updateContent() {
+        print(isPresented)
         partialSheetManager.updatePartialSheet(isPresented: isPresented, content: content)
     }
 
